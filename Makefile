@@ -1,20 +1,12 @@
-SHELL := /bin/bash
-
 default:
 	@echo "make test"
 	@echo "make lint"
 	@echo "make run"
 	@echo "make doc"
 
-define color_pass
-$(shell printf "\033[32mPASS\033[0m")
-endef
+color_pass=$(shell printf "\033[32mPASS\033[0m")
+color_fail=$(shell printf "\033[31mFAIL\033[0m")
 
-define color_fail
-$(shell printf "\033[31mFAIL\033[0m")
-endef
-
-# Run tests and colorize the output
 test:
 	@echo "Running tests..."
 	go test -v ./... 2>&1 | \
