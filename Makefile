@@ -19,7 +19,7 @@ lint:
 
 run:
 	@echo "Running..."
-	go run .
+	go run cmd/main.go
 
 doc:
 	@echo "Generating documentation..."

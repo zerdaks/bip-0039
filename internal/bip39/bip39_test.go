@@ -1,4 +1,4 @@
-package main
+package bip39
 
 import (
 	"strings"
@@ -40,7 +40,7 @@ func TestChecksum256(t *testing.T) {
 }
 
 func TestGenerateMnemonic128Words(t *testing.T) {
-	wordList := LoadWordList()
+	wordList := LoadWordList("../../data/words.txt")
 
 	mnemonic := GenerateMnemonic(128, wordList)
 	words := len(strings.Fields(mnemonic))
