@@ -4,14 +4,16 @@ default:
 	@echo "make run"
 	@echo "make doc"
 
-color_pass=$(shell printf "\033[32mPASS\033[0m")
-color_fail=$(shell printf "\033[31mFAIL\033[0m")
+RED=$(shell printf "\033[31m")
+GREEN=$(shell printf "\033[32m")
+YELLOW=$(shell printf "\033[33m")
+RESET=$(shell printf "\033[0m")
 
 test:
 	@echo "Running tests..."
 	go test -v ./... 2>&1 | \
-		sed 's/PASS/$(color_pass)/g' | \
-		sed 's/FAIL/$(color_fail)/g'
+		sed "s/PASS/$(GREEN)PASS$(RESET)/g" | \
+		sed "s/FAIL/$(RED)FAIL$(RESET)/g"
 
 lint:
 	@echo "Formatting code..."
@@ -23,6 +25,7 @@ run:
 
 doc:
 	@echo "Generating documentation..."
+	@echo -e "Visit ${YELLOW}http://localhost:6060/pkg/github.com/zerdaks/bip-0039/?m=all${RESET}"
 	godoc -http=:6060
 
 .PHONY: default test lint run doc
