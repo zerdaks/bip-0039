@@ -4,10 +4,10 @@ default:
 	@echo "make run"
 	@echo "make doc"
 
-RED=$(shell printf "\033[31m")
 GREEN=$(shell printf "\033[32m")
-YELLOW=$(shell printf "\033[33m")
+RED=$(shell printf "\033[31m")
 RESET=$(shell printf "\033[0m")
+YELLOW=$(shell printf "\033[33m")
 
 test:
 	@echo "Running tests..."
