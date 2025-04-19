@@ -9,9 +9,10 @@ RED=$(shell printf "\033[31m")
 RESET=$(shell printf "\033[0m")
 YELLOW=$(shell printf "\033[33m")
 
+# NOTE: -count=1 ignores cached tests
 test:
 	@echo "Running tests..."
-	go test -v ./... 2>&1 | \
+	go test -v -count=1 ./... 2>&1 | \
 		sed "s/PASS/$(GREEN)PASS$(RESET)/g" | \
 		sed "s/FAIL/$(RED)FAIL$(RESET)/g"
 
