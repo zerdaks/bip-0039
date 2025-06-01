@@ -16,7 +16,7 @@ install-go-deps:
 # NOTE: -count=1 ignores cached tests
 test:
 	@echo "Running tests..."
-	go test -v -count=1 ./... -json | tparse -all
+	go test -v -count=1 ./... -json | tparse -all -format plain
 
 lint:
 	@echo "Formatting code..."
