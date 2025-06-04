@@ -11,6 +11,7 @@ install-deps:
 	brew install go
 
 install-go-deps:
+	go install golang.org/x/tools/cmd/goimports@latest
 	go install github.com/mfridman/tparse@latest
 
 # NOTE: -count=1 ignores cached tests
