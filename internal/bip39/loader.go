@@ -19,6 +19,7 @@ func LoadWordList(filepath string) ([]string, error) {
 	for scanner.Scan() {
 		words = append(words, scanner.Text())
 	}
+
 	if err := scanner.Err(); err != nil {
 		return nil, fmt.Errorf("failed to read word list: %w", err)
 	}
