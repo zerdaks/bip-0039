@@ -9,20 +9,20 @@ import (
 )
 
 // Generates a mnemonic from a given entropy and word list.
-func GenerateMnemonic(entLen int, wordList []string) (string, error) {
+func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	// validate entropy length
 	if (entLen % 32) != 0 {
-		return "", fmt.Errorf("entropy should be a multiple of 32 bits, got %d", entLen)
+		return nil, fmt.Errorf("entropy should be a multiple of 32 bits, got %d", entLen)
 	}
 	if entLen < 128 || entLen > 256 {
-		return "", fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
+		return nil, fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
 	}
 
 	// generate random bytes needed for entropy
 	byteLen := entLen / 8
 	entropy := make([]byte, byteLen)
 	if _, err := io.ReadFull(rand.Reader, entropy[:]); err != nil {
-		return "", fmt.Errorf("error reading random bytes: %v", err)
+		return nil, fmt.Errorf("error reading random bytes: %v", err)
 	}
 
 	// convert the initial entropy to a binary string
@@ -35,15 +35,15 @@ func GenerateMnemonic(entLen int, wordList []string) (string, error) {
 	entStr = entStr + checksum
 
 	// convert the binary string to a mnemonic
-	mnemonic := ""
+	mnemonic := []string{}
 	for i := 0; i < len(entStr); i += 11 {
 		// each 11-bit chunk corresponds to a number between 0 and 2047
 		j, err := binToInt(entStr[i : i+11])
 		if err != nil {
-			return "", fmt.Errorf("error converting binary to integer: %v", err)
+			return nil, fmt.Errorf("error converting binary to integer: %v", err)
 		}
 		// each number corresponds to a word in a predefined word list
-		mnemonic += wordList[j] + " "
+		mnemonic = append(mnemonic, wordList[j])
 	}
 
 	return mnemonic, nil

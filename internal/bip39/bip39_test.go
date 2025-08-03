@@ -1,7 +1,6 @@
 package bip39
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -40,16 +39,13 @@ func TestGenerateMnemonic128Words(t *testing.T) {
 
 	mnemonic, err := GenerateMnemonic(128, wordList)
 	assert.NoError(t, err)
-	words := strings.Fields(mnemonic)
-	assert.Equal(t, 12, len(words))
+	assert.Equal(t, 12, len(mnemonic))
 
 	mnemonic, err = GenerateMnemonic(192, wordList)
 	assert.NoError(t, err)
-	words = strings.Fields(mnemonic)
-	assert.Equal(t, 18, len(words))
+	assert.Equal(t, 18, len(mnemonic))
 
 	mnemonic, err = GenerateMnemonic(256, wordList)
 	assert.NoError(t, err)
-	words = strings.Fields(mnemonic)
-	assert.Equal(t, 24, len(words))
+	assert.Equal(t, 24, len(mnemonic))
 }

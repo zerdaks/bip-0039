@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	log "log/slog"
-	"strings"
 
 	"github.com/zerdaks/bip-0039/internal/bip39"
 )
@@ -21,6 +20,5 @@ func main() {
 		return
 	}
 
-	words := strings.Fields(mnemonic)
-	log.Info(fmt.Sprintf("mnemonic with 128 bits of entropy (%d words): %s", len(words), mnemonic))
+	log.Info(fmt.Sprintf("mnemonic with 128 bits of entropy (%d words): %s", len(mnemonic), mnemonic))
 }
