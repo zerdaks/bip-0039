@@ -7,10 +7,10 @@ import (
 )
 
 // Returns a list of English words loaded from file.
-func LoadWordList(filepath string) []string {
+func LoadWordList(filepath string) ([]string, error) {
 	file, err := os.Open(filepath)
 	if err != nil {
-		panic(fmt.Sprintf("error opening file: %v", err))
+		return nil, fmt.Errorf("failed to open word list: %w", err)
 	}
 	defer file.Close()
 
@@ -20,8 +20,8 @@ func LoadWordList(filepath string) []string {
 		words = append(words, scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		panic(fmt.Sprintf("error scanning file: %v", err))
+		return nil, fmt.Errorf("failed to read word list: %w", err)
 	}
 
-	return words
+	return words, nil
 }

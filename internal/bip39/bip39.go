@@ -9,20 +9,20 @@ import (
 )
 
 // Generates a mnemonic from a given entropy and word list.
-func GenerateMnemonic(entLen int, wordList []string) string {
+func GenerateMnemonic(entLen int, wordList []string) (string, error) {
 	// validate entropy length
 	if (entLen % 32) != 0 {
-		panic("entropy should be multiple of 32 bits")
+		return "", fmt.Errorf("entropy should be a multiple of 32 bits, got %d", entLen)
 	}
 	if entLen < 128 || entLen > 256 {
-		panic("entropy should be between 128 and 256 bits")
+		return "", fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
 	}
 
 	// generate random bytes needed for entropy
 	byteLen := entLen / 8
 	entropy := make([]byte, byteLen)
 	if _, err := io.ReadFull(rand.Reader, entropy[:]); err != nil {
-		panic(fmt.Sprintf("error reading random bytes: %v", err))
+		return "", fmt.Errorf("error reading random bytes: %v", err)
 	}
 
 	// convert the initial entropy to a binary string
@@ -38,11 +38,15 @@ func GenerateMnemonic(entLen int, wordList []string) string {
 	mnemonic := ""
 	for i := 0; i < len(entStr); i += 11 {
 		// each 11-bit chunk corresponds to a number between 0 and 2047
-		j := binToInt(entStr[i : i+11])
+		j, err := binToInt(entStr[i : i+11])
+		if err != nil {
+			return "", fmt.Errorf("error converting binary to integer: %v", err)
+		}
 		// each number corresponds to a word in a predefined word list
 		mnemonic += wordList[j] + " "
 	}
-	return mnemonic
+
+	return mnemonic, nil
 }
 
 // Converts a byte slice to a binary string.
@@ -63,10 +67,10 @@ func checksum(entropy []byte, entLen int) string {
 }
 
 // Converts a binary string to an integer.
-func binToInt(str string) int {
+func binToInt(str string) (int, error) {
 	val, err := strconv.ParseInt(str, 2, 64)
 	if err != nil {
-		panic(fmt.Sprintf("error converting binary to integer: %v", err))
+		return 0, err
 	}
-	return int(val)
+	return int(val), nil
 }

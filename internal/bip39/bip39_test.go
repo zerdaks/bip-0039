@@ -15,7 +15,8 @@ func TestBytesToBinStr(t *testing.T) {
 
 func TestBinToInt(t *testing.T) {
 	expected := 4
-	actual := binToInt("00000100")
+	actual, err := binToInt("00000100")
+	assert.NoError(t, err)
 	assert.Equal(t, expected, actual)
 }
 
@@ -34,17 +35,21 @@ func TestChecksum256(t *testing.T) {
 }
 
 func TestGenerateMnemonic128Words(t *testing.T) {
-	wordList := LoadWordList("../../data/words.txt")
+	wordList, err := LoadWordList("../../data/words.txt")
+	assert.NoError(t, err)
 
-	mnemonic := GenerateMnemonic(128, wordList)
+	mnemonic, err := GenerateMnemonic(128, wordList)
+	assert.NoError(t, err)
 	words := strings.Fields(mnemonic)
 	assert.Equal(t, 12, len(words))
 
-	mnemonic = GenerateMnemonic(192, wordList)
+	mnemonic, err = GenerateMnemonic(192, wordList)
+	assert.NoError(t, err)
 	words = strings.Fields(mnemonic)
 	assert.Equal(t, 18, len(words))
 
-	mnemonic = GenerateMnemonic(256, wordList)
+	mnemonic, err = GenerateMnemonic(256, wordList)
+	assert.NoError(t, err)
 	words = strings.Fields(mnemonic)
 	assert.Equal(t, 24, len(words))
 }
