@@ -13,6 +13,7 @@ install-deps:
 install-go-deps:
 	go install golang.org/x/tools/cmd/goimports@latest
 	go install github.com/mfridman/tparse@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 # NOTE: -count=1 ignores cached tests
 test:
@@ -20,8 +21,10 @@ test:
 	go test -v -count=1 ./... -json | tparse -all -format plain
 
 lint:
-	@echo "Formatting code..."
+	@echo "Formatting and vetting code..."
 	go fmt ./...
+	go vet ./...
+	golangci-lint run ./...
 
 run:
 	@echo "Running..."
