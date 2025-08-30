@@ -1,5 +1,6 @@
 default:
 	@echo "make install"
+	@echo "make update"
 	@echo "make test"
 	@echo "make lint"
 	@echo "make run"
@@ -14,6 +15,11 @@ install-go-deps:
 	go install golang.org/x/tools/cmd/goimports@latest
 	go install github.com/mfridman/tparse@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+update:
+	@echo "Updating dependencies..."
+	go get -u ./...
+	go mod tidy
 
 # NOTE: -count=1 ignores cached tests
 test:
@@ -38,4 +44,4 @@ doc:
 	@echo -e "Visit ${YELLOW}http://localhost:6060/pkg/github.com/zerdaks/bip-0039/?m=all${RESET}"
 	godoc -http=:6060
 
-.SILENT: default install test lint run doc
+.SILENT: default install update test lint run doc
