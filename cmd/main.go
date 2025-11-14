@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	log "log/slog"
 
 	"github.com/zerdaks/bip-0039/internal/bip39"
@@ -20,5 +19,5 @@ func main() {
 		return
 	}
 
-	log.Info(fmt.Sprintf("mnemonic with 128 bits of entropy (%d words): %s", len(mnemonic), mnemonic))
+	log.Info("mnemonic with 128 bits of entropy", "count", len(mnemonic), "mnemonic", mnemonic)
 }
