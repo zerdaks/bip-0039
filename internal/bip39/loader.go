@@ -3,18 +3,23 @@ package bip39
 import (
 	"bufio"
 	"fmt"
+	log "log/slog"
 	"os"
 )
 
 // Returns a list of English words loaded from file.
 func LoadWordList(filepath string) ([]string, error) {
-	file, err := os.Open(filepath)
+	f, err := os.Open(filepath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open word list: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			log.Error("failed to close file", "error", err)
+		}
+	}()
 
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(f)
 	var words []string
 	for scanner.Scan() {
 		words = append(words, scanner.Text())
