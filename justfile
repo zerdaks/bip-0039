@@ -3,6 +3,7 @@
 install:
     @brew install go
     @go install golang.org/x/tools/cmd/goimports@latest
+    @go install golang.org/x/tools/cmd/godoc@latest
     @go install github.com/mfridman/tparse@latest
     @curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.10.1
 
