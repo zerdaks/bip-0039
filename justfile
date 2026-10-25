@@ -1,3 +1,11 @@
+BOLD := `printf "\033[1m"`
+RED := `printf "\033[31m"`
+YELLOW := `printf "\033[33m"`
+RESET := `printf "\033[0m"`
+
+default:
+    @just --list
+
 # Install dependencies
 [group('setup')]
 install:
@@ -10,26 +18,26 @@ install:
 # Update dependencies
 [group('setup')]
 update:
-    @echo "Updating dependencies..."
+    @echo "{{RED}}{{BOLD}}Updating dependencies...{{RESET}}"
     @go get -u ./...
     @go mod tidy
 
 # Run tests
 [group('dev')]
 test:
-    @echo "Running tests..."
-    @go test -v -count=1 ./... -json | tparse -all -format plain # -count=1 disables test caching
+    @echo "{{RED}}{{BOLD}}Running tests...{{RESET}}"
+    @go test -v -count=1 ./... -json | tparse -follow-verbose -all -format plain # -count=1 disables test caching
 
 # Run tests for package
 [group('dev')]
 testpkg dir="":
-    @echo "Running tests in directory {{dir}}..."
+    @echo "{{RED}}{{BOLD}}Running tests in directory {{dir}}...{{RESET}}"
     @go test -v -count=1 ./{{dir}}/...
 
 # Format and vet code
 [group('dev')]
 lint:
-    @echo "Formatting and vetting code..."
+    @echo "{{RED}}{{BOLD}}Formatting and vetting code...{{RESET}}"
     @go fmt ./...
     @go vet ./...
     @golangci-lint run ./...
@@ -37,15 +45,12 @@ lint:
 # Run cmd applications
 [group('dev')]
 run:
-    @echo "Running..."
+    @echo "{{RED}}{{BOLD}}Running...{{RESET}}"
     @go run cmd/main.go
-
-RESET := `printf "\033[0m"`
-YELLOW := `printf "\033[33m"`
 
 # Run documentation server
 [group('dev')]
 doc:
-    @echo "Generating documentation..."
+    @echo "{{RED}}{{BOLD}}Generating documentation...{{RESET}}"
     @echo "{{YELLOW}}http://localhost:6060/pkg/github.com/zerdaks/bip-0039/?m=all{{RESET}}"
     @godoc -http=:6060
