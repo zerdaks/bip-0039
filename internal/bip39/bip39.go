@@ -18,7 +18,7 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	byteLen := entLen / 8
 	entropy := make([]byte, byteLen)
 	if _, err := io.ReadFull(rand.Reader, entropy[:]); err != nil {
-		return nil, fmt.Errorf("error reading random bytes: %v", err)
+		return nil, fmt.Errorf("error reading random bytes: %w", err)
 	}
 
 	return MnemonicFromEntropy(entropy, wordList)
@@ -46,7 +46,7 @@ func MnemonicFromEntropy(entropy []byte, wordList []string) ([]string, error) {
 		// each 11-bit chunk corresponds to a number between 0 and 2047
 		j, err := binToInt(entStr[i : i+11])
 		if err != nil {
-			return nil, fmt.Errorf("error converting binary to integer: %v", err)
+			return nil, fmt.Errorf("error converting binary to integer: %w", err)
 		}
 		// each number corresponds to a word in a predefined word list
 		mnemonic = append(mnemonic, wordList[j])
