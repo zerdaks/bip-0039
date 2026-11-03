@@ -8,17 +8,10 @@ import (
 	"strconv"
 )
 
-// Generates a mnemonic from a given entropy and word list.
+// Generates a mnemonic from random entropy of a given bit length and a word list.
 func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
-	// validate entropy length
-	if (entLen % 32) != 0 {
-		return nil, fmt.Errorf("entropy should be a multiple of 32 bits, got %d", entLen)
-	}
-	if entLen < 128 || entLen > 256 {
-		return nil, fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
-	}
-	if len(wordList) != 2048 {
-		return nil, fmt.Errorf("word list should contain 2048 words, got %d", len(wordList))
+	if err := validate(entLen, wordList); err != nil {
+		return nil, err
 	}
 
 	// generate random bytes needed for entropy
@@ -26,6 +19,16 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	entropy := make([]byte, byteLen)
 	if _, err := io.ReadFull(rand.Reader, entropy[:]); err != nil {
 		return nil, fmt.Errorf("error reading random bytes: %v", err)
+	}
+
+	return MnemonicFromEntropy(entropy, wordList)
+}
+
+// Generates a mnemonic from a given entropy and word list.
+func MnemonicFromEntropy(entropy []byte, wordList []string) ([]string, error) {
+	entLen := len(entropy) * 8
+	if err := validate(entLen, wordList); err != nil {
+		return nil, err
 	}
 
 	// convert the initial entropy to a binary string
@@ -50,6 +53,20 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	}
 
 	return mnemonic, nil
+}
+
+// Validates the entropy length and word list.
+func validate(entLen int, wordList []string) error {
+	if (entLen % 32) != 0 {
+		return fmt.Errorf("entropy should be a multiple of 32 bits, got %d", entLen)
+	}
+	if entLen < 128 || entLen > 256 {
+		return fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
+	}
+	if len(wordList) != 2048 {
+		return fmt.Errorf("word list should contain 2048 words, got %d", len(wordList))
+	}
+	return nil
 }
 
 // Converts a byte slice to a binary string.
