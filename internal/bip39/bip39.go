@@ -17,6 +17,9 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	if entLen < 128 || entLen > 256 {
 		return nil, fmt.Errorf("entropy should be between 128 and 256 bits, got %d", entLen)
 	}
+	if len(wordList) != 2048 {
+		return nil, fmt.Errorf("word list should contain 2048 words, got %d", len(wordList))
+	}
 
 	// generate random bytes needed for entropy
 	byteLen := entLen / 8

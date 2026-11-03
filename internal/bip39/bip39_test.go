@@ -49,3 +49,11 @@ func TestGenerateMnemonic128Words(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 24, len(mnemonic))
 }
+
+func TestGenerateMnemonicRejectsShortWordList(t *testing.T) {
+	wordList := make([]string, 2047)
+
+	mnemonic, err := GenerateMnemonic(128, wordList)
+	assert.Error(t, err)
+	assert.Nil(t, mnemonic)
+}
