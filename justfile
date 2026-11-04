@@ -1,6 +1,5 @@
 BOLD := `printf "\033[1m"`
 RED := `printf "\033[31m"`
-YELLOW := `printf "\033[33m"`
 RESET := `printf "\033[0m"`
 
 default:
@@ -11,7 +10,6 @@ default:
 install:
     @brew install go
     @go install golang.org/x/tools/cmd/goimports@latest
-    @go install golang.org/x/tools/cmd/godoc@latest
     @go install github.com/mfridman/tparse@latest
     @curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.10.1
 
@@ -52,5 +50,4 @@ run:
 [group('dev')]
 doc:
     @echo "{{RED}}{{BOLD}}Generating documentation...{{RESET}}"
-    @echo "{{YELLOW}}http://localhost:6060/pkg/github.com/zerdaks/bip-0039/?m=all{{RESET}}"
-    @godoc -http=:6060
+    @go doc -http
