@@ -3,13 +3,13 @@ package bip39
 import (
 	"bufio"
 	"fmt"
+	"io/fs"
 	log "log/slog"
-	"os"
 )
 
-// Returns a list of English words loaded from file.
-func LoadWordList(filepath string) ([]string, error) {
-	f, err := os.Open(filepath)
+// Returns a list of English words loaded from the named file in fsys.
+func LoadWordList(fsys fs.FS, name string) ([]string, error) {
+	f, err := fsys.Open(name)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open word list: %w", err)
 	}

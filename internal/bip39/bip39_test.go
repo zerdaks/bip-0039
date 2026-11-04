@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/zerdaks/bip-0039/data"
 )
 
 func TestBytesToBinStr(t *testing.T) {
@@ -65,7 +66,7 @@ func TestValidate(t *testing.T) {
 }
 
 func TestGenerateMnemonic128Words(t *testing.T) {
-	wordList, err := LoadWordList("../../data/words.txt")
+	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
 
 	mnemonic, err := GenerateMnemonic(128, wordList)
@@ -91,7 +92,7 @@ func TestGenerateMnemonicRejectsShortWordList(t *testing.T) {
 
 // Vectors from https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 func TestMnemonicFromEntropyVectors(t *testing.T) {
-	wordList, err := LoadWordList("../../data/words.txt")
+	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
 
 	vectors := []struct {
@@ -127,7 +128,7 @@ func TestMnemonicFromEntropyVectors(t *testing.T) {
 }
 
 func TestMnemonicFromEntropyRejectsBadLength(t *testing.T) {
-	wordList, err := LoadWordList("../../data/words.txt")
+	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
 
 	mnemonic, err := MnemonicFromEntropy(make([]byte, 15), wordList)

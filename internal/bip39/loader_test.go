@@ -7,10 +7,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/zerdaks/bip-0039/data"
 )
 
 func TestLoadWordList(t *testing.T) {
-	wordList, err := LoadWordList("../../data/words.txt")
+	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
 	assert.Equal(t, 2048, len(wordList))
 	assert.Equal(t, "abandon", wordList[0])
@@ -18,7 +19,7 @@ func TestLoadWordList(t *testing.T) {
 }
 
 func TestLoadWordListMissingFile(t *testing.T) {
-	wordList, err := LoadWordList("../../data/missing.txt")
+	wordList, err := LoadWordList(data.FS, "missing.txt")
 	assert.Error(t, err)
 	assert.Nil(t, wordList)
 }

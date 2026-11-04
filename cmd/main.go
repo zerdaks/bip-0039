@@ -3,11 +3,12 @@ package main
 import (
 	log "log/slog"
 
+	"github.com/zerdaks/bip-0039/data"
 	"github.com/zerdaks/bip-0039/internal/bip39"
 )
 
 func main() {
-	wordList, err := bip39.LoadWordList("data/words.txt")
+	wordList, err := bip39.LoadWordList(data.FS, "words.txt")
 	if err != nil {
 		log.Error(err.Error())
 		return
