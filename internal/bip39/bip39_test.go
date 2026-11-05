@@ -115,6 +115,19 @@ func TestMnemonicFromEntropyVectors(t *testing.T) {
 			"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 			"zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo vote",
 		},
+		// the vectors above repeat one byte, so they cannot catch byte-order bugs
+		{
+			"9e885d952ad362caeb4efe34a8e91bd2",
+			"ozone drill grab fiber curtain grace pudding thank cruise elder eight picnic",
+		},
+		{
+			"6610b25967cdcca9d59875f5cb50b0ea75433311869e930b",
+			"gravity machine north sort system female filter attitude volume fold club stay feature office ecology stable narrow fog",
+		},
+		{
+			"68a79eaca2324873eacc50cb9c6eca8cc68ea5d936f98787c60c7ebc74e6ce7c",
+			"hamster diagram private dutch cause delay private meat slide toddler razor book happy fancy gospel tennis maple dilemma loan word shrug inflict delay length",
+		},
 	}
 
 	for _, v := range vectors {
