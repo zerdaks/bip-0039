@@ -10,13 +10,14 @@ import (
 	"testing/fstest"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/zerdaks/bip-0039/data"
 )
 
 func TestLoadWordList(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
-	assert.Equal(t, 2048, len(wordList))
+	require.Len(t, wordList, 2048)
 	assert.Equal(t, "abandon", wordList[0])
 	assert.Equal(t, "zoo", wordList[2047])
 }
