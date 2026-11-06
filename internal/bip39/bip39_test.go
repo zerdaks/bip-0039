@@ -82,6 +82,20 @@ func TestGenerateMnemonic128Words(t *testing.T) {
 	assert.Equal(t, 24, len(mnemonic))
 }
 
+// Unfilled entropy is all zeros, which still yields a valid mnemonic, so only
+// comparing two outputs catches it.
+func TestGenerateMnemonicIsRandom(t *testing.T) {
+	wordList, err := LoadWordList(data.FS, "words.txt")
+	assert.NoError(t, err)
+
+	first, err := GenerateMnemonic(256, wordList)
+	assert.NoError(t, err)
+	second, err := GenerateMnemonic(256, wordList)
+	assert.NoError(t, err)
+
+	assert.NotEqual(t, first, second)
+}
+
 func TestGenerateMnemonicRejectsShortWordList(t *testing.T) {
 	wordList := make([]string, 2047)
 
