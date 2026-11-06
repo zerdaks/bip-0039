@@ -32,7 +32,7 @@ func MnemonicFromEntropy(entropy []byte, wordList []string) ([]string, error) {
 	entStr := bytesToBinStr(entropy)
 
 	// generate a checksum
-	checksum := checksum(entropy, entLen)
+	checksum := checksum(entropy)
 
 	// append the checksum to the binary string
 	entStr = entStr + checksum
@@ -76,10 +76,10 @@ func bytesToBinStr(bytes []byte) string {
 }
 
 // Generates a checksum by taking the first `ENT/32` bits from the hash of the initial entropy.
-func checksum(entropy []byte, entLen int) string {
+func checksum(entropy []byte) string {
 	hash := sha256.Sum256(entropy)
 	hashStr := bytesToBinStr(hash[:])
-	checksumLen := entLen / 32
+	checksumLen := len(entropy) * 8 / 32
 	return hashStr[0:checksumLen]
 }
 

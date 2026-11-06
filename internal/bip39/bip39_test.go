@@ -23,16 +23,16 @@ func TestBinToInt(t *testing.T) {
 }
 
 func TestChecksum128(t *testing.T) {
-	entropy := []byte{0x04}
-	expected := "1110"
-	actual := checksum(entropy, 128)
+	entropy := make([]byte, 16)
+	expected := "0011"
+	actual := checksum(entropy)
 	assert.Equal(t, expected, actual)
 }
 
 func TestChecksum256(t *testing.T) {
-	entropy := []byte{0x04}
-	expected := "11100101"
-	actual := checksum(entropy, 256)
+	entropy := make([]byte, 32)
+	expected := "01100110"
+	actual := checksum(entropy)
 	assert.Equal(t, expected, actual)
 }
 
