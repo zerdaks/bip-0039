@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"fmt"
-	"io"
 	"strconv"
 )
 
@@ -17,9 +16,7 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	// generate random bytes needed for entropy
 	byteLen := entLen / 8
 	entropy := make([]byte, byteLen)
-	if _, err := io.ReadFull(rand.Reader, entropy[:]); err != nil {
-		return nil, fmt.Errorf("error reading random bytes: %w", err)
-	}
+	rand.Read(entropy)
 
 	return MnemonicFromEntropy(entropy, wordList)
 }
