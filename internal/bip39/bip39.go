@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // Generates a mnemonic from random entropy of a given bit length and a word list.
@@ -68,11 +69,11 @@ func validate(entLen int, wordList []string) error {
 
 // Converts a byte slice to a binary string.
 func bytesToBinStr(bytes []byte) string {
-	out := ""
+	var out strings.Builder
 	for _, b := range bytes {
-		out += fmt.Sprintf("%08b", b)
+		fmt.Fprintf(&out, "%08b", b)
 	}
-	return out
+	return out.String()
 }
 
 // Generates a checksum by taking the first `ENT/32` bits from the hash of the initial entropy.
