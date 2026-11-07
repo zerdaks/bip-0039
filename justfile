@@ -23,7 +23,7 @@ update:
 [group('dev')]
 test:
     @echo "{{RED}}{{BOLD}}Running tests...{{RESET}}"
-    @go test -v -count=1 ./... -json | tparse -follow-verbose -all -format plain # -count=1 disables test caching
+    @go test -count=1 ./... -json | tparse -progress -format plain # -count=1 disables test caching
 
 # Run tests for package
 [group('dev')]
