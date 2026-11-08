@@ -16,10 +16,8 @@ func TestBytesToBinStr(t *testing.T) {
 }
 
 func TestBinToInt(t *testing.T) {
-	expected := 4
-	actual, err := binToInt("00000100")
-	assert.NoError(t, err)
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, 4, binToInt("00000100"))
+	assert.Equal(t, 2047, binToInt("11111111111"))
 }
 
 func TestChecksum128(t *testing.T) {

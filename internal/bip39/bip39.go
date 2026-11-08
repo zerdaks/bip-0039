@@ -5,7 +5,6 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -43,10 +42,7 @@ func MnemonicFromEntropy(entropy []byte, wordList []string) ([]string, error) {
 	mnemonic := []string{}
 	for i := 0; i < len(entStr); i += 11 {
 		// each 11-bit chunk corresponds to a number between 0 and 2047
-		j, err := binToInt(entStr[i : i+11])
-		if err != nil {
-			return nil, fmt.Errorf("error converting binary to integer: %w", err)
-		}
+		j := binToInt(entStr[i : i+11])
 		// each number corresponds to a word in a predefined word list
 		mnemonic = append(mnemonic, wordList[j])
 	}
@@ -85,11 +81,11 @@ func checksum(entropy []byte) string {
 	return hashStr[0:checksumLen]
 }
 
-// Converts a binary string to an integer.
-func binToInt(str string) (int, error) {
-	val, err := strconv.ParseInt(str, 2, 64)
-	if err != nil {
-		return 0, err
+// Converts a string of '0' and '1' characters to an integer.
+func binToInt(str string) int {
+	n := 0
+	for _, c := range str {
+		n = n<<1 | int(c-'0')
 	}
-	return int(val), nil
+	return n
 }
