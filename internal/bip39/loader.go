@@ -7,7 +7,7 @@ import (
 	log "log/slog"
 )
 
-// Returns a list of English words loaded from the named file in fsys.
+// LoadWordList returns the words in the named file in fsys, one per line.
 func LoadWordList(fsys fs.FS, name string) ([]string, error) {
 	f, err := fsys.Open(name)
 	if err != nil {

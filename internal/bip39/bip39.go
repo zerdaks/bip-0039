@@ -1,3 +1,4 @@
+// Package bip39 turns entropy into mnemonic sentences as specified by BIP-0039.
 package bip39
 
 import (
@@ -8,7 +9,7 @@ import (
 	"strings"
 )
 
-// Generates a mnemonic from random entropy of a given bit length and a word list.
+// GenerateMnemonic generates a mnemonic from random entropy of a given bit length and a word list.
 func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	if err := validate(entLen, wordList); err != nil {
 		return nil, err
@@ -22,7 +23,7 @@ func GenerateMnemonic(entLen int, wordList []string) ([]string, error) {
 	return MnemonicFromEntropy(entropy, wordList)
 }
 
-// Generates a mnemonic from a given entropy and word list.
+// MnemonicFromEntropy generates a mnemonic from a given entropy and word list.
 func MnemonicFromEntropy(entropy []byte, wordList []string) ([]string, error) {
 	entLen := len(entropy) * 8
 	if err := validate(entLen, wordList); err != nil {
