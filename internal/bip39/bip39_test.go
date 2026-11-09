@@ -63,7 +63,7 @@ func TestValidate(t *testing.T) {
 	}
 }
 
-func TestGenerateMnemonic128Words(t *testing.T) {
+func TestGenerateMnemonicWordCounts(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
 	assert.NoError(t, err)
 
