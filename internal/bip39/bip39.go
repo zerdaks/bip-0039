@@ -61,6 +61,17 @@ func validate(entLen int, wordList []string) error {
 	if len(wordList) != 2048 {
 		return fmt.Errorf("word list should contain 2048 words, got %d", len(wordList))
 	}
+	// a mnemonic can only be decoded back to its entropy if every word maps to one index
+	seen := make(map[string]bool, len(wordList))
+	for i, w := range wordList {
+		if w == "" {
+			return fmt.Errorf("word list entry %d is empty", i)
+		}
+		if seen[w] {
+			return fmt.Errorf("word list entry %d duplicates %q", i, w)
+		}
+		seen[w] = true
+	}
 	return nil
 }
 

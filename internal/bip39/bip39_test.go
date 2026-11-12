@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/zerdaks/bip-0039/data"
 )
 
@@ -35,7 +36,14 @@ func TestChecksum256(t *testing.T) {
 }
 
 func TestValidate(t *testing.T) {
-	wordList := make([]string, 2048)
+	wordList, err := LoadWordList(data.FS, "words.txt")
+	require.NoError(t, err)
+
+	duplicate := append([]string{}, wordList...)
+	duplicate[1] = duplicate[0]
+
+	empty := append([]string{}, wordList...)
+	empty[1] = ""
 
 	cases := []struct {
 		name     string
@@ -49,6 +57,8 @@ func TestValidate(t *testing.T) {
 		{"256 bits is valid", 256, wordList, false},
 		{"288 bits is too long", 288, wordList, true},
 		{"2047 words is too few", 128, wordList[:2047], true},
+		{"duplicate word is rejected", 128, duplicate, true},
+		{"empty word is rejected", 128, empty, true},
 	}
 
 	for _, c := range cases {
