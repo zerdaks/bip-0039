@@ -16,7 +16,7 @@ install:
 [group('setup')]
 update:
     @echo "{{RED}}{{BOLD}}Updating dependencies...{{RESET}}"
-    @go get -u ./...
+    @go get -u -t ./... # -t includes test-only dependencies such as testify
     @go mod tidy
 
 # Run tests
