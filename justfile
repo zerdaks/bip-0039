@@ -23,13 +23,13 @@ update:
 [group('dev')]
 test:
     @echo "{{RED}}{{BOLD}}Running tests...{{RESET}}"
-    @go test -count=1 ./... -json | tparse -progress -format plain # -count=1 disables test caching
+    @go test -count=1 -cover ./... -json | tparse -progress -format plain # -count=1 disables test caching
 
 # Run tests for package
 [group('dev')]
 testpkg dir="":
     @echo "{{RED}}{{BOLD}}Running tests in directory {{dir}}...{{RESET}}"
-    @go test -v -count=1 ./{{dir}}/...
+    @go test -v -count=1 -cover ./{{dir}}/...
 
 # Format and lint code
 [group('dev')]
