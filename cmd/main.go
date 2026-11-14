@@ -3,6 +3,7 @@ package main
 import (
 	log "log/slog"
 	"os"
+	"strings"
 
 	"github.com/zerdaks/bip-0039/data"
 	"github.com/zerdaks/bip-0039/internal/bip39"
@@ -21,5 +22,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Info("mnemonic with 128 bits of entropy", "count", len(mnemonic), "mnemonic", mnemonic)
+	log.Info("mnemonic with 128 bits of entropy", "count", len(mnemonic), "mnemonic", strings.Join(mnemonic, " "))
 }
