@@ -48,3 +48,13 @@ func TestWordListIsCanonical(t *testing.T) {
 	sum := sha256.Sum256(words)
 	assert.Equal(t, expected, hex.EncodeToString(sum[:]))
 }
+
+func TestLoadWordListTrimsWhitespace(t *testing.T) {
+	fsys := fstest.MapFS{
+		"words.txt": {Data: []byte("abandon \n\tability\n")},
+	}
+
+	wordList, err := LoadWordList(fsys, "words.txt")
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"abandon", "ability"}, wordList)
+}

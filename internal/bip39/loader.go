@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io/fs"
 	log "log/slog"
+	"strings"
 )
 
-// LoadWordList returns the words in the named file in fsys, one per line.
+// LoadWordList returns the words in the named file in fsys, one per line,
+// with surrounding whitespace removed.
 func LoadWordList(fsys fs.FS, name string) ([]string, error) {
 	f, err := fsys.Open(name)
 	if err != nil {
@@ -22,7 +24,7 @@ func LoadWordList(fsys fs.FS, name string) ([]string, error) {
 	scanner := bufio.NewScanner(f)
 	var words []string
 	for scanner.Scan() {
-		words = append(words, scanner.Text())
+		words = append(words, strings.TrimSpace(scanner.Text()))
 	}
 
 	if err := scanner.Err(); err != nil {
