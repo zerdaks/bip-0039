@@ -150,6 +150,15 @@ func TestMnemonicFromEntropyVectors(t *testing.T) {
 			"68a79eaca2324873eacc50cb9c6eca8cc68ea5d936f98787c60c7ebc74e6ce7c",
 			"hamster diagram private dutch cause delay private meat slide toddler razor book happy fancy gospel tennis maple dilemma loan word shrug inflict delay length",
 		},
+		// vectors.json has no 160- or 224-bit entries; these come from python-mnemonic 0.21
+		{
+			"c0ba5a8e914111210f2bd131f3d5e08d4b1c9a3f",
+			"scheme spot photo card baby mountain device kick cradle pact join box range escape you",
+		},
+		{
+			"8f1e2d3c4b5a69788796a5b4c3d2e1f00112233445566778899aabbc",
+			"monitor vapor excuse note pledge rough bundle start regular burden reveal theme bachelor bag speed print guess session grit first search",
+		},
 	}
 
 	for _, v := range vectors {
