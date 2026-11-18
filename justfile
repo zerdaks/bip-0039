@@ -7,10 +7,16 @@ default:
 
 # Install dependencies
 [group('setup')]
-install:
+install: githooks
     @brew install go
+    @brew install gitleaks
     @go install github.com/mfridman/tparse@latest
     @curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.15.0
+
+# Install Git hooks
+[group('setup')]
+githooks:
+    @git config core.hooksPath hooks
 
 # Update dependencies
 [group('setup')]
