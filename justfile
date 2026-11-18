@@ -31,11 +31,10 @@ testpkg dir="":
     @echo "{{RED}}{{BOLD}}Running tests in directory {{dir}}...{{RESET}}"
     @go test -v -count=1 -cover ./{{dir}}/...
 
-# Format and lint code
+# Lint and check formatting
 [group('dev')]
 lint:
-    @echo "{{RED}}{{BOLD}}Formatting and linting code...{{RESET}}"
-    @go fmt ./...
+    @echo "{{RED}}{{BOLD}}Linting code...{{RESET}}"
     @# golangci-lint runs go vet among its defaults.
     @golangci-lint run ./...
 

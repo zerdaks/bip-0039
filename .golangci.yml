@@ -1,0 +1,8 @@
+version: "2"
+# fail lint on unformatted Go; fix with go fmt
+formatters:
+  enable:
+    - gofmt
+  settings:
+    gofmt:
+      simplify: false # match go fmt, which does not simplify
