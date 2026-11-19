@@ -9,7 +9,7 @@ default:
 [group('setup')]
 install: githooks
     @brew install go
-    @brew install gitleaks
+    @brew install betterleaks
     @go install github.com/mfridman/tparse@latest
     @curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.15.0
 
