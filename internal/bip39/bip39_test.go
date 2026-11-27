@@ -45,6 +45,12 @@ func TestValidate(t *testing.T) {
 	empty := append([]string{}, wordList...)
 	empty[1] = ""
 
+	innerSpace := append([]string{}, wordList...)
+	innerSpace[1] = "aban don"
+
+	leadingSpace := append([]string{}, wordList...)
+	leadingSpace[1] = " abandon"
+
 	cases := []struct {
 		name     string
 		entLen   int
@@ -59,6 +65,8 @@ func TestValidate(t *testing.T) {
 		{"2047 words is too few", 128, wordList[:2047], true},
 		{"duplicate word is rejected", 128, duplicate, true},
 		{"empty word is rejected", 128, empty, true},
+		{"word with inner space is rejected", 128, innerSpace, true},
+		{"word with leading space is rejected", 128, leadingSpace, true},
 	}
 
 	for _, c := range cases {

@@ -2,8 +2,9 @@
 
 Logged by /improve so it doesn't repeat itself, newest first. Entries start as proposed; a run marks them built or rejected and records the evidence.
 
-Columns: date | commit found at | files | title - description | status | evidence
+Columns: date | commit found at | files | title - description | status | evidence | lessons
 
+- 2026-11-27 | 615006a | internal/bip39/bip39.go internal/bip39/bip39_test.go | validate accepts words containing whitespace - MnemonicFromEntropy is exported and takes any []string, and validate rejects only empty or duplicate entries, so a list with `"aban don"` (or `" abandon"`) passes and yields a 12-word mnemonic that reads back as 23 words; check by calling MnemonicFromEntropy with 16 zero bytes and `w[0] = "aban don"`. | built | `just lint test` passes; both new TestValidate cases failed before the fix | Lessons: none
 - 2026-11-14 | 64cfd62 | internal/bip39/bip39_test.go | No known-answer vector for 160 or 224 bits - TestMnemonicFromEntropyVectors covers 128/192/256 only, so the 5- and 7-bit checksum lengths are never checked against the spec; read the vectors table and add 20- and 28-byte entries generated with trezor/python-mnemonic. | built | `abeb742`
 - 2026-11-14 | 64cfd62 | internal/bip39/loader.go internal/bip39/bip39.go | Word list entries keep surrounding spaces - LoadWordList does not trim and validate only rejects empty or duplicate words, so `"abandon "` loads and yields a mnemonic with a doubled space; check by loading an fstest.MapFS list with a trailing space on one line. | built | `83886c8`
 - 2026-11-14 | f0a60cf | cmd/main.go | Mnemonic is logged as a Go slice - `just run` prints `mnemonic="[market fiscal ...]"`, brackets included, so the output cannot be copied as a mnemonic; join with `strings.Join(mnemonic, " ")` and check with `just run`. | built | `182fd8c`

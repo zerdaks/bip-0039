@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 // GenerateMnemonic generates a mnemonic from random entropy of a given bit length and a word list.
@@ -66,6 +67,9 @@ func validate(entLen int, wordList []string) error {
 	for i, w := range wordList {
 		if w == "" {
 			return fmt.Errorf("word list entry %d is empty", i)
+		}
+		if strings.ContainsFunc(w, unicode.IsSpace) {
+			return fmt.Errorf("word list entry %d contains whitespace: %q", i, w)
 		}
 		if seen[w] {
 			return fmt.Errorf("word list entry %d duplicates %q", i, w)
