@@ -83,31 +83,31 @@ func TestValidate(t *testing.T) {
 
 func TestGenerateMnemonicWordCounts(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	mnemonic, err := GenerateMnemonic(128, wordList)
-	assert.NoError(t, err)
-	assert.Equal(t, 12, len(mnemonic))
+	require.NoError(t, err)
+	assert.Len(t, mnemonic, 12)
 
 	mnemonic, err = GenerateMnemonic(192, wordList)
-	assert.NoError(t, err)
-	assert.Equal(t, 18, len(mnemonic))
+	require.NoError(t, err)
+	assert.Len(t, mnemonic, 18)
 
 	mnemonic, err = GenerateMnemonic(256, wordList)
-	assert.NoError(t, err)
-	assert.Equal(t, 24, len(mnemonic))
+	require.NoError(t, err)
+	assert.Len(t, mnemonic, 24)
 }
 
 // Unfilled entropy is all zeros, which still yields a valid mnemonic, so only
 // comparing two outputs catches it.
 func TestGenerateMnemonicIsRandom(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	first, err := GenerateMnemonic(256, wordList)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	second, err := GenerateMnemonic(256, wordList)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	assert.NotEqual(t, first, second)
 }
@@ -116,14 +116,14 @@ func TestGenerateMnemonicRejectsShortWordList(t *testing.T) {
 	wordList := make([]string, 2047)
 
 	mnemonic, err := GenerateMnemonic(128, wordList)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Nil(t, mnemonic)
 }
 
 // Vectors from https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 func TestMnemonicFromEntropyVectors(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	vectors := []struct {
 		entropy  string
@@ -171,19 +171,19 @@ func TestMnemonicFromEntropyVectors(t *testing.T) {
 
 	for _, v := range vectors {
 		entropy, err := hex.DecodeString(v.entropy)
-		assert.NoError(t, err)
+		require.NoError(t, err)
 
 		mnemonic, err := MnemonicFromEntropy(entropy, wordList)
-		assert.NoError(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, strings.Fields(v.mnemonic), mnemonic)
 	}
 }
 
 func TestMnemonicFromEntropyRejectsBadLength(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	mnemonic, err := MnemonicFromEntropy(make([]byte, 15), wordList)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Nil(t, mnemonic)
 }

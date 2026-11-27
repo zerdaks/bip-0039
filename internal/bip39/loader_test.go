@@ -16,7 +16,7 @@ import (
 
 func TestLoadWordList(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	require.Len(t, wordList, 2048)
 	assert.Equal(t, "abandon", wordList[0])
 	assert.Equal(t, "zoo", wordList[2047])
@@ -24,7 +24,7 @@ func TestLoadWordList(t *testing.T) {
 
 func TestLoadWordListMissingFile(t *testing.T) {
 	wordList, err := LoadWordList(data.FS, "missing.txt")
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Nil(t, wordList)
 }
 
@@ -34,7 +34,7 @@ func TestLoadWordListLineTooLong(t *testing.T) {
 	}
 
 	wordList, err := LoadWordList(fsys, "words.txt")
-	assert.ErrorIs(t, err, bufio.ErrTooLong)
+	require.ErrorIs(t, err, bufio.ErrTooLong)
 	assert.Nil(t, wordList)
 }
 
@@ -43,7 +43,7 @@ func TestWordListIsCanonical(t *testing.T) {
 	expected := "2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda"
 
 	words, err := fs.ReadFile(data.FS, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	sum := sha256.Sum256(words)
 	assert.Equal(t, expected, hex.EncodeToString(sum[:]))
@@ -55,6 +55,6 @@ func TestLoadWordListTrimsWhitespace(t *testing.T) {
 	}
 
 	wordList, err := LoadWordList(fsys, "words.txt")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, []string{"abandon", "ability"}, wordList)
 }
