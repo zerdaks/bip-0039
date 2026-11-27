@@ -1,4 +1,47 @@
 version: "2"
+linters:
+  default: all
+  disable:
+    - cyclop # function cyclomatic complexity
+    - depguard # import allow/deny list
+    - dupl # duplicated code blocks
+    - dupword # repeated words in comments and strings
+    - err113 # static sentinel errors instead of inline ones
+    - exhaustruct # struct literals must set every field
+    - exhaustruct_v5 # struct literals must set every field
+    - funlen # function length
+    - gochecknoglobals # package-level variables
+    - gocognit # function cognitive complexity
+    - goconst # repeated strings that could be constants
+    - gocritic # assorted style and performance checks
+    - godoclint # doc comments start with the symbol name
+    - godot # comments end with a period
+    - gomodguard # module allow/deny list
+    - gomodguard_v2 # module allow/deny list
+    - lll # line length
+    - mirror # bytes/strings function variants that avoid conversions
+    - mnd # magic numbers
+    - modernize # newer Go idioms and standard library helpers
+    - nestif # deeply nested if statements
+    - nlreturn # blank line before return
+    - noinlineerr # inline error checks in if statements
+    - nonamedreturns # named return values
+    - paralleltest # tests call t.Parallel
+    - perfsprint # faster alternatives to fmt.Sprintf
+    - prealloc # slices that could be preallocated
+    - recvcheck # consistent pointer or value receivers
+    - revive # configurable style rules, mostly doc comments
+    - testifylint # testify assertion misuse
+    - testpackage # tests in a separate _test package
+    - thelper # test helpers call t.Helper
+    - unconvert # unnecessary type conversions
+    - varnamelen # short variable names
+    - wrapcheck # errors from other packages are wrapped
+    - wsl # whitespace and blank-line rules
+    - wsl_v5 # whitespace and blank-line rules
+  settings:
+    exhaustive:
+      default-signifies-exhaustive: true
 # fail lint on unformatted Go; fix with go fmt
 formatters:
   enable:
