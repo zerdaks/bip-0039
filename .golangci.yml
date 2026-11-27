@@ -39,6 +39,10 @@ linters:
     - wrapcheck # errors from other packages are wrapped
     - wsl # whitespace and blank-line rules
     - wsl_v5 # whitespace and blank-line rules
+  exclusions:
+    rules:
+      - path: cmd/ # CLIs print their output
+        linters: [forbidigo]
   settings:
     exhaustive:
       default-signifies-exhaustive: true
