@@ -37,6 +37,10 @@ linters:
       check-error-free-encoding: true # don't ask to check marshals that can't fail
     exhaustive:
       default-signifies-exhaustive: true # a default case counts as handling every value
+    govet:
+      enable-all: true # go vet's optional checks too, such as shadow
+      disable:
+        - fieldalignment # reorders struct fields to save a few bytes
     revive:
       enable-default-rules: true # keep revive's defaults, minus the doc-comment rules
       rules:
