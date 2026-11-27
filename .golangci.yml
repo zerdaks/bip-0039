@@ -44,6 +44,8 @@ linters:
       - path: cmd/ # CLIs print their output
         linters: [forbidigo]
   settings:
+    errchkjson:
+      check-error-free-encoding: true # don't ask to check marshals that can't fail
     exhaustive:
       default-signifies-exhaustive: true
 # fail lint on unformatted Go; fix with go fmt
