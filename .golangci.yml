@@ -19,24 +19,13 @@ linters:
     - gomodguard # module allow/deny list
     - gomodguard_v2 # module allow/deny list
     - lll # line length
-    - mirror # bytes/strings function variants that avoid conversions
     - mnd # magic numbers
-    - modernize # newer Go idioms and standard library helpers
     - nestif # deeply nested if statements
     - nlreturn # blank line before return
     - noinlineerr # inline error checks in if statements
-    - nonamedreturns # named return values
     - paralleltest # tests call t.Parallel
-    - perfsprint # faster alternatives to fmt.Sprintf
-    - prealloc # slices that could be preallocated
-    - recvcheck # consistent pointer or value receivers
-    - revive # configurable style rules, mostly doc comments
-    - testifylint # testify assertion misuse
     - testpackage # tests in a separate _test package
-    - thelper # test helpers call t.Helper
-    - unconvert # unnecessary type conversions
     - varnamelen # short variable names
-    - wrapcheck # errors from other packages are wrapped
     - wsl # whitespace and blank-line rules
     - wsl_v5 # whitespace and blank-line rules
   exclusions:
@@ -48,6 +37,16 @@ linters:
       check-error-free-encoding: true # don't ask to check marshals that can't fail
     exhaustive:
       default-signifies-exhaustive: true
+    revive:
+      enable-default-rules: true # keep revive's defaults, minus the doc-comment rules
+      rules:
+        - name: exported
+          disabled: true
+        - name: package-comments
+          disabled: true
+    wrapcheck:
+      ignore-package-globs:
+        - github.com/zerdaks/* # our own packages add their own context
 # fail lint on unformatted Go; fix with go fmt
 formatters:
   enable:
