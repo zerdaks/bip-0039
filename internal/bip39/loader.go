@@ -9,7 +9,7 @@ import (
 )
 
 // LoadWordList returns the words in the named file in fsys, one per line,
-// with surrounding whitespace removed.
+// with surrounding whitespace and any byte order mark removed.
 func LoadWordList(fsys fs.FS, name string) ([]string, error) {
 	f, err := fsys.Open(name)
 	if err != nil {
@@ -24,7 +24,7 @@ func LoadWordList(fsys fs.FS, name string) ([]string, error) {
 	scanner := bufio.NewScanner(f)
 	var words []string
 	for scanner.Scan() {
-		words = append(words, strings.TrimSpace(scanner.Text()))
+		words = append(words, strings.TrimSpace(strings.TrimPrefix(scanner.Text(), "\ufeff")))
 	}
 
 	if err := scanner.Err(); err != nil {

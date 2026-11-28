@@ -58,3 +58,13 @@ func TestLoadWordListTrimsWhitespace(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, []string{"abandon", "ability"}, wordList)
 }
+
+func TestLoadWordListStripsByteOrderMark(t *testing.T) {
+	fsys := fstest.MapFS{
+		"words.txt": {Data: []byte("\xef\xbb\xbfabandon\nability\n")},
+	}
+
+	wordList, err := LoadWordList(fsys, "words.txt")
+	require.NoError(t, err)
+	assert.Equal(t, []string{"abandon", "ability"}, wordList)
+}
